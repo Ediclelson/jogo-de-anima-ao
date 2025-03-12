@@ -1,0 +1,67 @@
+import { useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { Button } from "@/components/ui/button";
+import { FaPaw, FaTint } from "react-icons/fa";
+
+const initialAnimalLocations = [
+  { id: 1, lat: -23.55052, lng: -46.633308, type: "animal" },
+  { id: 2, lat: -23.55152, lng: -46.632308, type: "animal" },
+];
+
+const initialFeederLocations = [
+  { id: 1, lat: -23.55252, lng: -46.631308, type: "feeder" },
+  { id: 2, lat: -23.55352, lng: -46.630308, type: "feeder" },
+];
+
+const initialWaterLocations = [
+  { id: 1, lat: -23.55452, lng: -46.629308, type: "water" },
+  { id: 2, lat: -23.55552, lng: -46.628308, type: "water" },
+];
+
+export default function AnimalMap() {
+  const [animalLocations, setAnimalLocations] = useState(initialAnimalLocations);
+  const [feederLocations, setFeederLocations] = useState(initialFeederLocations);
+  const [waterLocations, setWaterLocations] = useState(initialWaterLocations);
+
+  return (
+    <div className="w-full h-screen relative">
+      <MapContainer center={[-23.55052, -46.633308]} zoom={14} className="w-full h-full">
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        
+        {animalLocations.map((location) => (
+          <Marker key={location.id} position={[location.lat, location.lng]}>
+            <Popup>
+              <div className="text-center">
+                <FaPaw className="text-red-500 text-xl" />
+                <p>Animal localizado</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
+        {feederLocations.map((location) => (
+          <Marker key={location.id} position={[location.lat, location.lng]}>
+            <Popup>
+              <div className="text-center">
+                <FaPaw className="text-green-500 text-xl" />
+                <p>Comedouro</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
+        {waterLocations.map((location) => (
+          <Marker key={location.id} position={[location.lat, location.lng]}>
+            <Popup>
+              <div className="text-center">
+                <FaTint className="text-blue-500 text-xl" />
+                <p>Bebedouro</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
+  );
+}
